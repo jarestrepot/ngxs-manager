@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-12">
+
+    <div class="row mb-2">
+      <div class="col-12">
+        <app-filter (filter)="filter($event)"></app-filter>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <table class="table">
+          <tr>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Edad</th>
+          </tr>
+          <tr *ngFor="let person of peopleFiltered">
+            <td>{{person.name}}</td>
+            <td>{{person.surname}}</td>
+            <td>{{person.age}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
