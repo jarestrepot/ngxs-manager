@@ -1,18 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
-import { Person } from '../model/person';
+import { Person, PersonsResponse } from '../model/person';
 import { PeopleService } from '../services/people.service';
-import { GetPeople } from './people.actions';
+import { GetPeople, GetPeopleByName, SetLoading } from './people.actions';
+import { Observable } from 'rxjs';
 
-// Clase estado 
+// Clase estado
 export class PeopleStateModel {
   public people: Person[];
+  filteredPeople: Person[];
+  public loading: boolean;
 }
 
 // Valores por defecto
-const defaults = {
-  people: []
+const defaults: PeopleStateModel = {
+  people: [],
+  filteredPeople: [],
+  loading: false
 };
 
 @State<PeopleStateModel>({
@@ -24,24 +29,64 @@ export class PeopleState {
 
   // Selectores
   @Selector()
-  static people(state: PeopleStateModel){
-    return state.people;
+  static people({ people }: PeopleStateModel): Person[] {
+    return people;
   }
 
-  constructor(private peopleService: PeopleService){ }
+  @Selector()
+  static loading({ loading }: PeopleStateModel): boolean {
+    return loading;
+  }
 
+  @Selector()
+  static filteredPeople({ people, filteredPeople }: PeopleStateModel): Person[] {
+    if (filteredPeople.length > 0) return filteredPeople;
+    return people;
+  }
+
+  constructor(private peopleService: PeopleService) { }
   // Acciones
   @Action(GetPeople)
-  add(
-    { setState }: StateContext<PeopleStateModel>, 
-    { payload }: GetPeople) {
-      return this.peopleService.fetchPeople(payload.name).pipe(
-        tap( (people: Person[]) => {
+  getPeople(
+    { patchState }: StateContext<PeopleStateModel>
+  ) {
+    patchState({ loading: true });
+    return this.peopleService.fetchPeople()
+      .pipe(
+        tap((people: Person[]) => {
           // Modificamos la propiedad del estado
-          setState({
-            people
-          })
+          patchState({
+            people,
+            loading: false,
+          });
         })
       )
   }
+
+  @Action(GetPeopleByName)
+  getPeopleByName(
+    { patchState, getState }: StateContext<PeopleStateModel>,
+    { payload }: GetPeopleByName
+  ) {
+    patchState({ loading: true });
+    // Current State
+    const state = getState();
+    const filteredPeople = state.people.filter(person =>
+      person.name.toLowerCase().includes(payload.name.toLowerCase())
+    );
+    patchState({
+      filteredPeople,
+      loading: false
+    });
+
+  }
+
+  @Action(SetLoading)
+  setLoading(
+    { patchState }: StateContext<PeopleStateModel>,
+    { payload }: SetLoading) {
+    patchState({ loading: payload });
+  }
 }
+
+

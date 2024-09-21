@@ -7,22 +7,32 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="!loadingPerson; else spinerShow">
       <div class="col-12">
         <table class="table">
           <tr>
             <th>Nombre</th>
             <th>Apellidos</th>
             <th>Edad</th>
+            <th>Email</th>
           </tr>
           <tr *ngFor="let person of peopleFiltered">
             <td>{{person.name}}</td>
             <td>{{person.surname}}</td>
-            <td>{{person.age}}</td>
+            <td>{{person.nick_name}}</td>
+            <td>{{person.email}}</td>
           </tr>
         </table>
       </div>
     </div>
+
+    <ng-template #spinerShow>
+      <div
+        class="spinner-grow"
+        role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </ng-template>
 
   </div>
 </div>
