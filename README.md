@@ -6,7 +6,7 @@
 
 1. Clone the repository
 ```
-  git clone
+  git clone https://github.com/jarestrepot/ngxs-manager.git
 ```
 
 2. Install the packages
