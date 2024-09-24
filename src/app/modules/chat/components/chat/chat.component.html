@@ -1,0 +1,18 @@
+<h1>Messages</h1>
+<hr>
+<chat-messages [messages]="chatsMessage"></chat-messages>
+
+<form [formGroup]="form" (ngSubmit)="send()" class="pt-2">
+  <div class="form-group mb-3">
+    <input formControlName="message" id="message" autofocus autocomplete="off" class="form-control" name="text"
+      type="text" placeholder="Write a new message...">
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button [disabled]="form.invalid" type="submit" class="btn btn-primary">
+      Send
+    </button>
+  </div>
+</form>
+
+

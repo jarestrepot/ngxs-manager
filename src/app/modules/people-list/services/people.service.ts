@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Person, PersonsResponse } from '../model/person';
 import { HttpClient } from '@angular/common/http';
 
@@ -80,7 +80,7 @@ export class PeopleService {
           }
         }
       ]
-  };
+    };
 
   constructor(private http: HttpClient) { }
 
@@ -88,9 +88,8 @@ export class PeopleService {
   fetchPeople(): Observable<Person[]> {
     return this.http.get<PersonsResponse>('http://localhost:3001/user/users')
       .pipe(
-        map( (personResponse) => personResponse.data )
-      )
-
+        map((personResponse) => personResponse.data),
+      );
   }
 
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Person } from '../model/person';
-import { GetPeople, GetPeopleByName } from '../state/people.actions';
+import { GetPeopleByName } from '../state/people.actions';
 import { PeopleState } from '../state/people.state';
 
 @Component({
@@ -26,7 +26,9 @@ export class PeopleListComponent implements OnInit {
   public loadingPerson: boolean = false;
   private destroy$ = new Subject<void>();
 
-  constructor(private store: Store) { }
+  constructor(
+    private store: Store,
+  ) { }
 
   ngOnInit() {
     this.fetchPeople();
@@ -36,7 +38,7 @@ export class PeopleListComponent implements OnInit {
         {
           next: (person: Person[]) => this.peopleFiltered = person
         }
-      )
+      );
   }
 
   fetchPeople() {

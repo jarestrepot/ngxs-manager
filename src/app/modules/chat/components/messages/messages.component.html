@@ -1,0 +1,16 @@
+<div #chatMessage id="chat-messages" class="p-3 bg-light border rounded">
+  <ul class="list-unstyled">
+    <li *ngFor="let message of messages"
+      [ngClass]="{'text-end': message.from === 'me', 'text-start': message.from !== 'me'}" class="mb-2">
+      <div class="d-inline-block p-2 rounded"
+        [ngClass]="{'bg-primary text-white': message.from === 'me', 'bg-secondary text-white': message.from !== 'me'}"
+        style="max-width: 70%;">
+        <strong>{{ message.from === 'me' ? 'You' : message.from }}: </strong>
+        <span>{{ message.body }}</span>
+        <div class="text-end" style="font-size: 0.75rem;">
+          <small>12:45 PM</small>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

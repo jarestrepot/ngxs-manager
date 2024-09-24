@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
-import { Person, PersonsResponse } from '../model/person';
+import { Person } from '../model/person';
 import { PeopleService } from '../services/people.service';
 import { GetPeople, GetPeopleByName, SetLoading } from './people.actions';
-import { Observable } from 'rxjs';
 
 // Clase estado
 export class PeopleStateModel {
   public people: Person[];
-  filteredPeople: Person[];
+  public filteredPeople: Person[];
   public loading: boolean;
 }
 

@@ -3,8 +3,20 @@ import { RouterModule, Routes } from '@angular/router';
 import { PeopleListComponent } from './modules/people-list/components/people-list.component';
 
 const routes: Routes = [
-  { path: 'people-list', component: PeopleListComponent },
-  { path: '**', pathMatch: 'full', redirectTo: 'people-list'}
+  {
+    path: 'people-list',
+    component: PeopleListComponent,
+    loadChildren: () => import('./modules/people-list/people-list.module').then(m => m.PeopleListModule)
+  },
+  {
+    path: 'chat',
+    loadChildren: () => import('./modules/chat/chat.module').then(m => m.ChatModule)
+  },
+  {
+    path: '**',
+    pathMatch: 'full',
+    redirectTo: 'people-list'
+  }
 ];
 
 @NgModule({
